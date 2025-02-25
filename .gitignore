@@ -1,0 +1,8 @@
+.idea
+.DS_Store
+data/
+*.rdb
+*.json
+study_examples/
+static/
+recipes_venv/

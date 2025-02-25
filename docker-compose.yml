@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  recipe_db:
+    container_name: recipe_db
+    image: postgres:14
+    environment:
+      - POSTGRES_DB=recipes
+      - POSTGRES_PASSWORD=recipes_admin
+      - POSTGRES_USER=recipes_admin
+    ports:
+      - "5434:5432"
+
+  app:
+    container_name: recipes
+    build: .
+    command: bash -c "python ./recipes/recipes/manage.py migrate && python ./recipes/recipes/manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - recipe_db
+    env_file:
+      - ./recipes/recipes/recipes/.env
